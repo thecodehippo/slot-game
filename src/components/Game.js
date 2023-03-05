@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Reel from './Reel'
-import { numReels, defaultReels, animationStartPosition, animationEndPosition } from '../config/gameConfig';
+import { numReels, defaultReels, animationStartPosition, animationEndPosition, winMessage, loseMessage } from '../config/gameConfig';
 import { generateReels } from '../utils/gameUtils';
 
 const Game = () => {
@@ -8,12 +8,13 @@ const Game = () => {
     const [reels, setReels] = useState(defaultReels);
     const [stopCount, setStopCount] = useState(1);
     const [position, setPosition] = useState(0);
-    const [visibleTiles, setVisibleTiles] = useState(defaultReels);
+    const [win, setWin] = useState(false);
+    const [message, setMessage] = useState("Good luck, hit spin to play")
 
     function go() {
         setPosition(animationStartPosition);
-        let { reelArr, visibleSymbolsArr } = generateReels(reels);
-        setVisibleTiles(visibleSymbolsArr);
+        let { reelArr, win } = generateReels(reels);
+        setWin(win);
         setReels(reelArr);
         setStopCount(1);
         setAnimate(true);
@@ -25,6 +26,7 @@ const Game = () => {
         if(stopCount === numReels){
             setAnimate(false);
             setPosition(animationEndPosition)
+            win ? setMessage(winMessage) : setMessage(loseMessage);
         }
     }
 
@@ -32,7 +34,7 @@ const Game = () => {
         let reelArr = [];
         for(let i = 0; i < numReels; i++) {
             reelArr.push(
-                <Reel key={`r${i}`} reels={reels[i]} reelNum={i} animating={animate} onAnimationEnd={stop} position={position} visibleTiles={visibleTiles[i]} />
+                <Reel key={`r${i}`} reels={reels[i]} reelNum={i} animating={animate} onAnimationEnd={stop} position={position} />
             )
         }
         return reelArr;
@@ -44,6 +46,7 @@ const Game = () => {
                 {createReels()}
             </div>
             <button onClick={animate ? stop : go}>Spin</button>
+            {message}
         </div>
     )
 

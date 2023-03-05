@@ -19,20 +19,6 @@ class Reel extends React.Component {
         return symbolArr;
     }
 
-    insertPreviousSymbols() {
-        let prevSymArr = [];
-        for(let i = 0; i < this.props.visibleTiles.length; i++) {
-            prevSymArr.push(<div key={`s${i}`} style={{
-                width: tileWidth,
-                height: tileHeight,
-                backgroundColor: 'transparent',
-                pointerEvents: 'none',
-                }}
-            ><Symbol key={`s${i}`} symbol={this.props.visibleTiles[i]} /></div>)
-        }
-        return prevSymArr;
-    }
-
     render() {
 
         return (
@@ -43,7 +29,6 @@ class Reel extends React.Component {
                 }}>
                 <AnimatedDiv className="animated-div" position={this.props.position} animationDelay={animationDelay[this.props.reelNum]} animating={this.props.animating} onAnimationEnd={this.props.onAnimationEnd}>
                     {this.insertSymbols()}
-                    {this.insertPreviousSymbols()}
                 </AnimatedDiv>
 
             </div>
