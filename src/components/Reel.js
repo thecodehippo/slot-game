@@ -6,16 +6,23 @@ import { animationDelay, tileWidth, tileHeight, visibleTileSize } from '../confi
 class Reel extends React.Component {
 
     insertSymbols() {
+
         let symbolArr = [];
         for(let i = 0; i < this.props.reels.length; i++) {
+
+            let symbolDidWinResult = this.props.winningSymbols.indexOf(this.props.reels[i]) >= 0;
+
             symbolArr.push(<div key={`s${i}`} style={{
                 width: tileWidth,
                 height: tileHeight,
                 backgroundColor: 'transparent',
                 pointerEvents: 'none',
+                display: 'flex',
+                alignItems: 'center'
                 }}
-            ><Symbol key={`s${i}`} symbol={this.props.reels[i]} /></div>)
+            ><Symbol key={`s${i}`} symbol={this.props.reels[i]} winningSymbolBoolean={symbolDidWinResult} /></div>)
         }
+
         return symbolArr;
     }
 

@@ -15,6 +15,16 @@
 
 .symbol {
   max-width:100%;
+  border: 5px solid white;
+  width: 115px;
+  height: 115px;
+}
+
+.symbol-win {
+  max-width:100%;
+  border: 5px solid red;
+  width: 115px;
+  height: 115px;
 }
 
 .animated-div {

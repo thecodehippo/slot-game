@@ -10,11 +10,15 @@ const Game = () => {
     const [position, setPosition] = useState(0);
     const [win, setWin] = useState(false);
     const [message, setMessage] = useState("Good luck, hit spin to play")
+    const [winningSymbols, setWinningSymbols] = useState([]);
+    const [pendingWinningSymbols, setPendingWinningSymbols] = useState([]);
 
     function go() {
         setPosition(animationStartPosition);
-        let { reelArr, win } = generateReels(reels);
+        setWinningSymbols([]);
+        let { reelArr, win, pendingWinningSymbols} = generateReels(reels);
         setWin(win);
+        setPendingWinningSymbols(pendingWinningSymbols);
         setReels(reelArr);
         setStopCount(1);
         setAnimate(true);
@@ -27,6 +31,7 @@ const Game = () => {
             setAnimate(false);
             setPosition(animationEndPosition)
             win ? setMessage(winMessage) : setMessage(loseMessage);
+            setWinningSymbols(pendingWinningSymbols);
         }
     }
 
@@ -34,7 +39,7 @@ const Game = () => {
         let reelArr = [];
         for(let i = 0; i < numReels; i++) {
             reelArr.push(
-                <Reel key={`r${i}`} reels={reels[i]} reelNum={i} animating={animate} onAnimationEnd={stop} position={position} />
+                <Reel key={`r${i}`} reels={reels[i]} reelNum={i} animating={animate} onAnimationEnd={stop} position={position} winningSymbols={winningSymbols} />
             )
         }
         return reelArr;

@@ -27,10 +27,22 @@ const Symbol = (props) => {
     }
 
     let symbolSource = getImage();
+    
+    function getWinningSymbolBoolean() {
+
+        if(props.winningSymbolBoolean) {
+            return (
+                <img className="symbol-win" src={symbolSource} alt="symbol" />
+            )
+        } else return (
+            <img className="symbol" src={symbolSource} alt="symbol" />
+        )
+    }
 
     return (
-        
-        <img className="symbol" src={symbolSource} alt="symbol" />
+        <div>
+            {getWinningSymbolBoolean()}
+        </div>
     )
 }
 

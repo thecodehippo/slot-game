@@ -3,16 +3,7 @@ import { fruitSymbols, visibleRows, numReels, numSymbols, winningSymNum } from '
 export const generateReels = (reels) => {
 
     let reelArr = [];
-
-    let appleCount = 0;
-    let lemonCount = 0;
-    let grapesCount = 0;
-    let kiwiCount = 0;
-    let bananaCount = 0;
-    let pearCount = 0;
-    let watermelonCount = 0;
-    let strawberryCount = 0;
-    let cherryCount = 0;
+    let eligibleSymbolsForWin = [];
 
     for(let n = 0; n < numReels; n++) {
 
@@ -24,37 +15,7 @@ export const generateReels = (reels) => {
             if(p < visibleRows && p < numSymbols) {
 
                 let symbol = fruitSymbols[(Math.floor(Math.random() * fruitSymbols.length))]
-
-                switch(symbol) {
-                    case "A":
-                        appleCount++
-                        break
-                    case "G":
-                        grapesCount++
-                        break
-                    case "L":
-                        lemonCount++
-                        break
-                    case "K":
-                        kiwiCount++
-                        break
-                    case "B":
-                        bananaCount++
-                        break
-                    case "S":
-                        strawberryCount++
-                        break
-                    case "P":
-                        pearCount++
-                        break
-                    case "W":
-                        watermelonCount++
-                        break
-                    default:
-                        cherryCount++
-                        break
-                }
-
+                eligibleSymbolsForWin.push(symbol);
                 symbolArr.push(symbol);
 
             }
@@ -79,30 +40,103 @@ export const generateReels = (reels) => {
         
     }
 
-    if (
-        appleCount > winningSymNum
-        ||
-        lemonCount > winningSymNum
-        ||
-        grapesCount > winningSymNum
-        ||
-        kiwiCount > winningSymNum
-        ||
-        bananaCount > winningSymNum
-        ||
-        pearCount > winningSymNum
-        ||
-        watermelonCount > winningSymNum
-        ||
-        strawberryCount > winningSymNum
-        ||
-        cherryCount > winningSymNum
-    ) {
+    let pendingWinningSymbols = checkWin(eligibleSymbolsForWin);
+
+    if(pendingWinningSymbols.length > 0) {
         let win = true;
-        return { reelArr, win }; 
-    } 
+        return { reelArr, win, pendingWinningSymbols };  
+    }
     else {
         let win = false;
-        return { reelArr, win };
+        return { reelArr, win, pendingWinningSymbols };
     }
+
 }
+
+const checkWin = (arr) => {
+
+    let winningSymbols = [];
+    let appleCount = 0;
+    let bananaCount = 0;
+    let watermelonCount = 0;
+    let kiwiCount = 0;
+    let cherryCount = 0;
+    let grapesCount = 0;
+    let lemonCount = 0;
+    let strawberryCount = 0;
+    let pearCount = 0;
+
+    for(let i = 0; i <= arr.length; i++) {
+
+        switch(arr[i]) {
+            case "A":
+                appleCount++
+                break
+            case "G":
+                grapesCount++
+                break
+            case "L":
+                lemonCount++
+                break
+            case "K":
+                kiwiCount++
+                break
+            case "B":
+                bananaCount++
+                break
+            case "S":
+                strawberryCount++
+                break
+            case "P":
+                pearCount++
+                break
+            case "W":
+                watermelonCount++
+                break
+            default:
+                cherryCount++
+                break
+        }
+
+        if(appleCount > winningSymNum) {
+            winningSymbols.push('A');
+        }
+
+        else if(grapesCount > winningSymNum) {
+            winningSymbols.push('G');
+        }
+
+        else if(lemonCount > winningSymNum) {
+            winningSymbols.push('L');
+        }
+
+        else if(kiwiCount > winningSymNum) {
+            winningSymbols.push('K');
+        }
+
+        else if(bananaCount > winningSymNum) {
+            winningSymbols.push('B');
+        }
+
+        else if(strawberryCount > winningSymNum) {
+            winningSymbols.push('S');
+        }
+
+        else if(pearCount > winningSymNum) {
+            winningSymbols.push('P');
+        }
+
+        else if(watermelonCount > winningSymNum) {
+            winningSymbols.push('W');
+        }
+
+        else if(cherryCount > winningSymNum) {
+            winningSymbols.push('C');
+        }
+
+    }
+
+    return winningSymbols;
+
+}
+
